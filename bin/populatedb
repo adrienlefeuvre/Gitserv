@@ -1,0 +1,57 @@
+#!/usr/bin/env coffee
+
+exec = require('child_process').exec
+
+exec "rm -rf #{__dirname}/../db/metrics && mkdir #{__dirname}/../db/metrics", (err, stdout, stderr) ->
+  if err then throw err
+
+  # Require after rm and mkdir or DB is deleted once in callback
+  metrics = require '../src/metrics'
+
+  console.log 'DB deleted'
+  console.log 'Creating metrics'
+  met = [
+    [
+      timestamp: new Date('2015-12-01 10:30 UTC').getTime(),
+      value: 26
+    ,
+      timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
+      value: 23
+    ,
+      timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
+      value: 20
+    ,
+      timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
+      value: 19
+    ,
+      timestamp: new Date('2015-12-01 10:50 UTC').getTime(),
+      value: 18
+    ,
+      timestamp: new Date('2015-12-01 10:55 UTC').getTime(),
+      value: 20
+    ],
+      [
+        timestamp: new Date('2015-11-01 10:30 UTC').getTime(),
+        value: 26
+      ,
+        timestamp: new Date('2015-11-01 10:35 UTC').getTime(),
+        value: 23
+      ,
+        timestamp: new Date('2015-11-01 10:40 UTC').getTime(),
+        value: 20
+      ,
+        timestamp: new Date('2015-11-01 10:45 UTC').getTime(),
+        value: 19
+      ,
+        timestamp: new Date('2015-11-01 10:50 UTC').getTime(),
+        value: 18
+      ,
+        timestamp: new Date('2015-11-01 10:55 UTC').getTime(),
+        value: 20
+      ]
+  ]
+
+  for metric, index in met
+    console.log "Saving batch #{index + 1}"
+    metrics.save index + 1, metric, (err) ->
+      return next err if err

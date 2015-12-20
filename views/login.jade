@@ -1,0 +1,25 @@
+extend layout
+
+block head
+  script(type="text/javascript" src="js/jquery-2.1.4.min.js" charset="utf-8")
+  script(type="text/javascript" src="js/bootstrap.min.js" charset="utf-8")
+  link(rel='stylesheet', href='/css/bootstrap.min.css')
+  link(rel="stylesheet", href="global.css")
+
+block content
+  div.container.login
+    div.row.centered
+      #form
+        div.col-md-3
+          p Please login to your account
+          hr
+        
+          form.form-horizontal#login(action='/login', method="post")
+            .form-group.loginform
+              label Username
+              input(type='text', name="username")
+            .form-group.loginform
+              label Password
+              input(type='password', name="password")
+            button.btn.btn-success.btn-block(type='submit') Login
+          button.btn.btn-success.btn-block#signup(href='/signup' onclick='document.location.href=\'/signup\'') Signup
